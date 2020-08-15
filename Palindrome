@@ -1,0 +1,9 @@
+phrase = str(input('Type an phrase: ')).strip().upper()
+words = phrase.split()
+together = ''.join(words)
+inverse = together[::-1]
+print(inverse)
+if inverse == together:
+    print('We got a Palindrome!')
+else:
+    print('That is not a Palindrome!')
