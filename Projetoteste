@@ -1,0 +1,79 @@
+import requests
+import pyodbc
+
+#Função de retornar a conexão.
+def retornar_conexao_sql():
+    server = 'localhost' 
+    database = 'mercadolivre' 
+    #username = 'hspecca' 
+    #password = '1234' 
+    string_conexao = 'Driver={SQL Server Native Client 11.0};Server='+server+';Database='+database+';Trusted_Connection=yes;'
+    conexao = pyodbc.connect(string_conexao)
+    return conexao.cursor()
+
+#Variável do cursor
+cursor = retornar_conexao_sql()
+#Seleção de teste
+cursor.execute("SELECT * FROM blacklist")
+row = cursor.fetchone()
+if row:
+    print(row)
+
+
+##Receber a lista
+listaIps = ['23.129.64.212', '23.129.64.213', '23.129.64.215']
+#Deleta a tabela
+# Colocar a syntaxe de delete
+# Insert dos valores na tabela do SQL obtidos da lista 
+for itensIps in listaIps:
+    print (itensIps) 
+    ipOutput = str(itensIps)
+    
+    ##cursor.execute("INSERT INTO blacklist(ip_id, first_name)values(itens)")
+    sql = '"INSERT INTO blacklist(IP) values(%s)"' + ipOutput
+
+    #cursor.execute("INSERT INTO blacklist(IP) values(%s)", ipOutput) 
+    cursor.execute(sql)
+
+    #output = ('abc','abc')
+    #output_insert = str(output)
+    #cursor=db.cursor()
+    #sql = '" INSERT INTO a (a,b) VALUES (%s,%s)",' +  output_insert
+    #cursor.execute(sql)
+    #db.commit()
+    #cursor.close()
+    #Processing Query    
+    ##cursor.execute(SQLCommand)
+
+    cursor.commit()
+    print("Data Successfully Inserted")   
+    cursor.close()
+
+"""
+print("@@@@  @     @@@@  @@@@  @   @   @     @@@@   @@@@  @@@@@")
+print("@  @  @     @  @  @     @  @    @       @    @       @ ")
+print("@@@   @     @@@@  @     @ @     @       @    @@@@    @ ")
+print("@  @  @     @  @  @     @  @    @       @       @    @ ")
+print("@@@@  @@@@  @  @  @@@@  @   @   @@@@  @@@@   @@@@    @ ")
+print()
+
+ip_input = input("Escolha uma opção: \n\n"
+                 "1 - Exibir lista de IPs Maliciosos\n"
+                 "2 - Adicionar IP na Lista (ex: 172.2.4.2)\n"
+                 "3 - Atualizar a lista (Poderá ser utilizado uma vez a cada 30 minutos)\n"
+                 "4 - Sair\n\n "
+                "Opção: ")
+
+if ip_input == "1":
+    #    r = requests.get('https://www.dan.me.uk/torlist/?exit')
+    #    print(r.text)
+   ###### Adicionar o sleep de 30minutos ######
+  #  print("Essa parte ta ok")
+
+elif ip_input == "2":
+    print("Pegar o IP e consultar na lista")
+else:
+    print("Até a proxima!")
+"""
+
+ 
